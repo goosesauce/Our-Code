@@ -46,6 +46,8 @@ public class teleOp extends LinearOpMode {
     private DcMotor backLeft;
     private DcMotor climb;
     private Servo planeGoWee;
+    private Servo right_release;
+    private Servo left_release;
     private double climbPower = 0.0;
 
     double delayTimer = 0;
@@ -140,8 +142,11 @@ public class teleOp extends LinearOpMode {
         climb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         planeGoWee = hardwareMap.servo.get("drone_launcher");
-        planeGoWee.setPosition(0.21);
-
+        planeGoWee.setPosition(0.0);
+        right_release = hardwareMap.servo.get("right_release");
+        right_release.setPosition(0.92);
+        left_release = hardwareMap.servo.get("left_release");
+        left_release.setPosition(0.04);
 
         claw.upperClaw(true);
         upperClawOpen = true;
@@ -206,7 +211,7 @@ public class teleOp extends LinearOpMode {
 
              // Default speed multiplier
             if (getSmallestYForTagIds1To6(currentDetections) != null && getSmallestYForTagIds1To6(currentDetections) < 20 && y < 0) {
-                aprilSpeedMultiplier = 0.2; // Reduced speed multiplier for backward movement
+                aprilSpeedMultiplier = 0.6; // Reduced speed multiplier for backward movement
             }
 
             double rotX = x;
@@ -277,7 +282,7 @@ public class teleOp extends LinearOpMode {
 
             ////////intake hori and roller in
             if (gamepad2.left_trigger >0.1 && armIn && lowerClawOpen) {
-                intake.horiPower((double) gamepad2.left_trigger);
+                intake.horiPower((double) -gamepad2.left_trigger);
                 intake.setIntakeRoller(gamepad2.left_trigger);
             } else {
                 intake.horiPower(0.0);
@@ -290,11 +295,11 @@ public class teleOp extends LinearOpMode {
                 intake.setIntakeRoller(-1);
             }
             if (gamepad2.b) {
-                intake.horiPower(-0.5);
+                intake.horiPower(0.5);
             }
 
             if (!lowerClawOpen && !upperClawOpen && armIn){
-                intake.horiPower(-0.4);
+                intake.horiPower(0.4);
                 intake.verticalPower(-0.4);
                 intake.setIntakeRoller(-1);
                 intake.setIntakebelt(1);
@@ -360,9 +365,15 @@ public class teleOp extends LinearOpMode {
                 runDelay1 = false;
                 armIn = true;
             }
-            if (gamepad1.dpad_up && climb.getCurrentPosition()<10000){
+
+            if(gamepad2.start && gamepad2.back){
+                right_release.setPosition(0.54);
+                left_release.setPosition(0.35);
+            }
+
+            if (gamepad1.dpad_up && climb.getCurrentPosition()<5200){
                 climbPower = 1;
-            } else if (climb.getCurrentPosition()>5000){
+            } else if (climb.getCurrentPosition()>2000){
                 climbPower = 0.3;
             } else{
                 climbPower=0;//
@@ -372,12 +383,12 @@ public class teleOp extends LinearOpMode {
             }
 
             if (gamepad1.x && gamepad1.dpad_left){
-                planeGoWee.setPosition(0.61);
+                planeGoWee.setPosition(0.5);
             }
             if (gamepad1.a){
-                planeGoWee.setPosition(0.21);
+                planeGoWee.setPosition(0.00);
             }
-            if (currentGamepad1.b && !previousGamepad1.b) {
+            if (currentGamepad1.left_bumper && !previousGamepad1.right_bumper) {
                 if (slowDownMultiplier==1){
                     slowDownMultiplier =0.5;
                 } else {

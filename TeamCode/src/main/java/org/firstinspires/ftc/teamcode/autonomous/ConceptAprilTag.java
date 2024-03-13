@@ -116,14 +116,14 @@ public class ConceptAprilTag extends LinearOpMode {
             .setDrawTagOutline(true)
             .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
             .setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
-            .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+            .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
             .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
 
         builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        builder.setCameraResolution(new Size(640, 360));
+        builder.setCameraResolution(new Size(800, 448));
 
         builder.enableLiveView(true);
 

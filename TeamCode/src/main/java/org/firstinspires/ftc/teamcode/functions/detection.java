@@ -10,9 +10,9 @@ public class detection extends OpenCvPipeline {
     static Mat mask = new Mat();
     public static String allianceColour = "";
 
-    static Rect roi1 = new Rect(230, 410, 80, 80);
-    static Rect roi2 = new Rect(645, 380, 80, 80);
-    static Rect roi3 = new Rect(1150, 410, 80, 80);
+    static Rect roi1 = new Rect(230, 390, 80, 80);
+    static Rect roi2 = new Rect(635, 376, 80, 80);
+    static Rect roi3 = new Rect(1080, 390, 80, 80);
     //test
 
     @Override
@@ -24,8 +24,18 @@ public class detection extends OpenCvPipeline {
             Scalar lowerRed = new Scalar(0, 100, 100);
         Scalar upperRed = new Scalar(179, 255, 255);
 
-        Scalar lowerBlue = new Scalar(90, 100, 100);
-        Scalar upperBlue = new Scalar(130, 255, 255);
+        //Scalar lowerBlue = new Scalar(90, 100, 100);
+        //Scalar upperBlue = new Scalar(130, 255, 255);
+
+            Scalar lowerBlue = new Scalar(100, 200, 60);
+            Scalar upperBlue = new Scalar(120, 255, 100);
+
+            //Scalar lowerBlue = new Scalar(105, 220, 65);
+            //Scalar upperBlue = new Scalar(120, 255, 90);
+            //Scalar lowerBlue = new Scalar(105, 200, 60);
+            //Scalar upperBlue = new Scalar(120, 255, 100);
+            //Scalar lowerBlue = new Scalar(100, 200, 60);
+            //Scalar upperBlue = new Scalar(120, 255, 100);
 
 
 

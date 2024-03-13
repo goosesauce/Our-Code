@@ -27,16 +27,16 @@ import java.util.List;
  */
 @Config
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = 1.37795/2; // in
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
+    public static double TICKS_PER_REV = 8192.0;
+    public static double WHEEL_RADIUS = 1.37795/2.0; // in
+    public static double GEAR_RATIO = 1.0; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 12.1985265429001; // in; distance between the left and right wheels // was 12.2835
-    public static double FORWARD_OFFSET = -7.285314961; // in; offset of the lateral wheel //
+    public static double LATERAL_DISTANCE = 12.4 ; // in; distance between the left and right wheels // was 12.2835
+    public static double FORWARD_OFFSET = -5.14197; // in; offset of the lateral wheel // -5.1417323
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
-    public static double X_MULTIPLIER = 0.99114577; // Multiplier in the X direction
-    public static double Y_MULTIPLIER = 0.99708353; // Multiplier in the Y direction
+    public static double X_MULTIPLIER = 0.997458178; // Multiplier in the X direction
+    public static double Y_MULTIPLIER = 0.998899236; // Multiplier in the Y direction
 
     private List<Integer> lastEncPositions, lastEncVels;
 
@@ -50,12 +50,15 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncPositions = lastTrackingEncPositions;
         lastEncVels = lastTrackingEncVels;
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "back_left"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "front_left"));
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "front_right"));
-        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "front_left"));
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "back_right"));
 
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)  frontEncoder.setDirection(Encoder.Direction.REVERSE);
+        leftEncoder.setDirection(Encoder.Direction.REVERSE);
+        rightEncoder.setDirection(Encoder.Direction.REVERSE);
+
     }
 
 

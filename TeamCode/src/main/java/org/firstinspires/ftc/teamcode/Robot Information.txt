@@ -2,26 +2,37 @@ Names
 
 Servos
 
-upper_grab (Expansion hub port 0)
-lower_grab (Expansion hub port 1)
-vertical_rotate (Expansion hub port 3) (the vertical rotation)
-hori_rotate (Expansion hub port 5) (rotates the delivery angle that it drops at)
+Control hub port 0      upper_grab           servo
+Control hub port 1      lower_grab           servo
+Control hub port 2      vertical_rotate      servo
+Control hub port 3      hori_rotate          servo
+Control hub port 4      intake_belt          continuous
+Control hub port 5      intake_roller        continuous
 
-drone_launcher (Control hub port 2)
-intake_roller (Control hub port 0)
-intake_belt (Control hub port 4)
+
+Expansion hub port 0    right_release        servo
+Expansion hub port 4    drone_launcher       servo
+Expansion hub port 5    left_release         servo
+
+
+
 
 Motors
 
-front_left (Expansion hub port 0)
-vertical_intake (Expansion hub port 1)
-lift (Expansion hub port 2)
-back_left (Expansion hub port 3)
+new robot
 
-front_right (Control hub port 0)
-hori_intake (Control hub port 1) ////pretty sure
-climb (Control hub port 2) ////pretty sure
-back_right (Control hub port 3)
+Expansion hub port 0    vertical_intake
+Expansion hub port 1    lift
+Expansion hub port 2    climb
+Expansion hub port 3    hori_intake
+
+Control hub port 0      front_right  //right encoder
+Control hub port 1      back_right  //front encoder
+Control hub port 2      back_left
+Control hub port 3      front_left  //left encoder
+
+
+
 
 
 
@@ -38,6 +49,21 @@ Right port 0 (front_right)
 
 
 Lift range 0 - -3100 so set to between 0 and 3000
+
+left_release closed 0.04 open 0.35
+right_release closed 0.92 open 0.54
+
+
+drone not connected
+
+upper_grab closed 0.44 open 1               0.56
+lower_grab closed 0.29 open 0.89           0.6
+hori intake 0.95 delivery 0.42
+vertical intake 0 outake 0.96
+
+
+climb between 0 and 5272 + is climbing
+
 
 vertical 0.04 is in intake position delivery approx 0.93
 
@@ -63,3 +89,14 @@ popsitive = in max in 10,000
 planelauncher
 0.21 hold
 0.61 launch
+
+
+
+
+
+
+x
+100.09760287317434
+100.35653542299507
+100.27184009307322
+100.29334139062061

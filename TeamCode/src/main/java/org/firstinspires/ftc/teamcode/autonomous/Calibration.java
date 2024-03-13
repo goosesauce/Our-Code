@@ -31,7 +31,7 @@ public class Calibration extends OpMode {
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                webcam.startStreaming(960, 544, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
                 telemetry.addData("working", "");
                 telemetry.update();
             }
@@ -79,7 +79,7 @@ class SamplePipeline extends OpenCvPipeline {
         Core.inRange(hsvImage, lowerRed, upperRed, mask);
 
         // Define the regions of interest (ROIs) for the three zones
-        Rect roi1 = new Rect(270, 230, 80, 80);
+        Rect roi1 = new Rect(230, 390, 80, 80);
 
         // Draw rectangles to visualize the three zones
         Imgproc.rectangle(input, roi1, new Scalar(0, 0, 255), 2);

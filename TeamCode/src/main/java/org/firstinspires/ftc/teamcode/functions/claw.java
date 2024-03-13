@@ -12,14 +12,14 @@ import org.firstinspires.ftc.teamcode.teleOp.teleOp;
 public class claw {
     private Servo upper_grab, lower_grab, vertical_rotate, hori_rotate;
 
-    final private double clawUpperOpen = 0.66;
-    final private double clawUpperClosed = 0.15;
-    final private double clawLowerOpen = 0.66;
-    final private double clawLowerClosed = 0.15;
-    final private double verticalAtIntake = 0.07;
-    final private double verticalAtDelivery = 0.93;
-    final private double horiAtIntake = 0.91;
-    final private double horiAtDelivery = 0.35;
+    final private double clawUpperOpen = 1.0;
+    final private double clawUpperClosed = 0.44;
+    final private double clawLowerOpen = 0.89;
+    final private double clawLowerClosed = 0.29;
+    final private double verticalAtIntake = 0.0;
+    final private double verticalAtDelivery = 0.96;
+    final private double horiAtIntake = 0.95;
+    final private double horiAtDelivery = 0.42;
 
     private String deliveryArm = ""; //Options intake|delivery
     private String upperClaw = ""; //Options open|close

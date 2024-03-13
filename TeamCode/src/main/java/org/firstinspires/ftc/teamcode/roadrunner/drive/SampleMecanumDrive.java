@@ -55,10 +55,10 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.kV;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(6, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(7, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(10, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(10, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = 1;
+    public static double LATERAL_MULTIPLIER = 2.4;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -117,6 +117,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         if (RUN_USING_ENCODER) {
             setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

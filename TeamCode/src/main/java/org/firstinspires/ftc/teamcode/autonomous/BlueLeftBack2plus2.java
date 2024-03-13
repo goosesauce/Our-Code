@@ -22,8 +22,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import java.util.List;
 
 
-@Autonomous(name="SafeBlueAutoLeftSide", group="FSMAuto", preselectTeleOp="RightTeleOp")
-public class SafeBlueAutoLeftSide extends LinearOpMode {
+@Autonomous(name="BlueLeftBack2plus2", group="FSMAuto", preselectTeleOp="RightTeleOp")
+public class BlueLeftBack2plus2 extends LinearOpMode {
     private DistanceSensor distance;
     private DistanceSensor distance2;
     boolean lowerClawOpen = true;
@@ -53,7 +53,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
         IDLE
     }
     // Default to the idle state and define our start pos
-    SafeBlueAutoLeftSide.State currentState = SafeBlueAutoLeftSide.State.IDLE;
+    BlueLeftBack2plus2.State currentState = BlueLeftBack2plus2.State.IDLE;
     Pose2d startPose = new Pose2d(12, 63, Math.toRadians(90));
 
 
@@ -128,7 +128,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
 
         asyncUpdatesThread = new Thread(asyncUpdates);
 
-        currentState = SafeBlueAutoLeftSide.State.SpikeDelivery;
+        currentState = BlueLeftBack2plus2.State.SpikeDelivery;
         while (!isStarted() && !isStopRequested()) {
             position = getPosition();
             telemetry.addData("Position" , position);
