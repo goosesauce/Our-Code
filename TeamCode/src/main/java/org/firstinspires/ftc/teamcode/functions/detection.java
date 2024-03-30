@@ -11,7 +11,7 @@ public class detection extends OpenCvPipeline {
     public static String allianceColour = "";
 
     static Rect roi1 = new Rect(230, 390, 80, 80);
-    static Rect roi2 = new Rect(635, 376, 80, 80);
+    static Rect roi2 = new Rect(650, 376, 80, 80);//635
     static Rect roi3 = new Rect(1080, 390, 80, 80);
     //test
 
