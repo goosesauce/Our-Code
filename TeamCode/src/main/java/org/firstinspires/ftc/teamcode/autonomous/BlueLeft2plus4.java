@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import static org.firstinspires.ftc.teamcode.functions.detection.getPosition;
+import static org.firstinspires.ftc.teamcode.functions.detection.setColour;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -10,22 +13,18 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.functions.claw;
-import org.firstinspires.ftc.teamcode.functions.lift;
+import org.firstinspires.ftc.teamcode.functions.hardwareInit;
 import org.firstinspires.ftc.teamcode.functions.intake;
+import org.firstinspires.ftc.teamcode.functions.lift;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySequence;
 
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.functions.detection.getPosition;
-import static org.firstinspires.ftc.teamcode.functions.detection.setColour;
 
-import org.firstinspires.ftc.teamcode.functions.hardwareInit;
-
-
-@Autonomous(name="RedRight2plus4", group="FSMAuto", preselectTeleOp="teleOp")
-public class RedRight2plus4 extends LinearOpMode {
+@Autonomous(name="BlueLeft2plus4", group="FSMAuto", preselectTeleOp="teleOp")
+public class BlueLeft2plus4 extends LinearOpMode {
 
 
     private DistanceSensor distance;
@@ -58,8 +57,8 @@ public class RedRight2plus4 extends LinearOpMode {
         IDLE
     }
     // Default to the idle state and define our start pos
-    RedRight2plus4.State currentState = RedRight2plus4.State.IDLE;
-    Pose2d startPose = new Pose2d(12, -62.75, Math.toRadians(-90));
+    BlueLeft2plus4.State currentState = BlueLeft2plus4.State.IDLE;
+    Pose2d startPose = new Pose2d(11.5, 62.75, Math.toRadians(-270));
     //Pose2d startPose = new Pose2d(-63, -38.7, Math.toRadians(0));
 
 
@@ -136,7 +135,7 @@ public class RedRight2plus4 extends LinearOpMode {
 
 
         long lastLoopTime = System.nanoTime();
-        currentState = RedRight2plus4.State.SpikeDelivery;
+        currentState = BlueLeft2plus4.State.SpikeDelivery;
         boolean set = false;
         while (!isStarted() && !isStopRequested()) {
             position = getPosition();
