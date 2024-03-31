@@ -16,9 +16,9 @@ public class claw {
     final private double clawUpperClosed = 0.46;
     final private double clawLowerOpen = 0.89;
     final private double clawLowerClosed = 0.29;
-    final private double verticalAtIntake = 0.0;
+    final private double verticalAtIntake = 0.02;
     final private double verticalAtDelivery = 0.87; //0.96
-    final private double horiAtIntake = 0.95;
+    final private double horiAtIntake = 0.98;//was 0.95
     final private double horiAtDelivery = 0.42;
 
     private String deliveryArm = ""; //Options intake|delivery

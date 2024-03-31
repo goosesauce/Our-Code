@@ -30,11 +30,9 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
     boolean upperClawOpen = false;
     boolean armIn = true;
 
-    private Thread clawIntakeThread;
-    private volatile boolean runClawIntakeThread = true;
+    boolean AutoReject = false;
 
-    private Thread asyncUpdatesThread;
-    private volatile boolean asyncThread = true;
+
 
     int position = 0;
 
@@ -86,44 +84,8 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
 
 
 
-        Runnable clawIntakeControl = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (runClawIntakeThread && !Thread.currentThread().isInterrupted()) {
-                        distance2var = distance2.getDistance(DistanceUnit.MM);
-                        distance1var = distance.getDistance(DistanceUnit.MM);
-
-                        if (armIn && distance2var < 30) {
-                            claw.upperClaw(false);
-                            upperClawOpen = false;
-                        }
-
-                        if (!upperClawOpen && armIn && distance1var < 30) {
-                            claw.lowerClaw(false);
-                            lowerClawOpen = false;
-                        }
-
-                        if (!lowerClawOpen && !upperClawOpen && armIn) {
-                            intake.horiPower(1.0);
-                            intake.verticalPower(-0.4);
-                            intake.setIntakeRoller(-1);
-                            intake.setIntakebelt(1);
-                        }
 
 
-                        // Optional: Adjust sleep time as necessary
-                        Thread.sleep(10);
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        };
-
-
-
-        clawIntakeThread = new Thread(clawIntakeControl);
 
 
         currentState = BlueLeftBack2plus2.State.SpikeDelivery;
@@ -149,6 +111,30 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
             lift.update();
             claw.update();
             intake.update();
+
+            if (AutoReject) {
+                if (armIn && distance2.getDistance(DistanceUnit.MM) < 30) {
+                    claw.upperClaw(false);
+                    upperClawOpen = false;
+                }
+
+                if (!upperClawOpen && armIn && distance.getDistance(DistanceUnit.MM) < 30) {
+                    claw.lowerClaw(false);
+                    lowerClawOpen = false;
+                }
+                if (distance.getDistance(DistanceUnit.MM) < 30) {
+                    intake.verticalPower(0.6);
+                }
+
+
+                if (!lowerClawOpen && !upperClawOpen && armIn) {
+                    intake.horiPower(1.0);
+                    intake.verticalPower(-0.7);
+                    intake.setIntakeRoller(-1);
+                    intake.setIntakebelt(1);
+                    AutoReject = false;
+                }
+            }
 
             switch (currentState) {
                 case SpikeDelivery:
@@ -184,7 +170,7 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(24, 25, Math.toRadians(-180)))
+                                .lineToLinearHeading(new Pose2d(28, 25, Math.toRadians(-180)))//y25x24
                                 .build(); //-21, -60
 
                         if (!drive.isBusy()) {
@@ -220,7 +206,7 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.7))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .lineToLinearHeading(new Pose2d(52.5, 44, Math.toRadians(180)),
+                                .lineToLinearHeading(new Pose2d(53.2, 44, Math.toRadians(180)),
                                         SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(20))
                                 .build(); //-21, -60*/
@@ -234,7 +220,7 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.5))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineTo(new Vector2d(52.5, 39.5), Math.toRadians(0),
+                                .splineTo(new Vector2d(53.2, 39.5), Math.toRadians(0),
                                         SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(20))
                                 .build(); //-21, -60
@@ -249,7 +235,7 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
 
-                                .splineTo(new Vector2d(52.5, 33), Math.toRadians(0),
+                                .splineTo(new Vector2d(53.2, 33), Math.toRadians(0),
                                         SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(20)).
                                 build(); //-21, -60
@@ -291,23 +277,13 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                                     SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                             .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                intake.horiPower(-1.0);
-                            })
-                            .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                                intake.horiPower(-0.60);
                                 intake.verticalPower(1.0);
-                            })
-                            .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                 intake.setIntakeRoller(1.0);
-                            })
-                            .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                 intake.setIntakebelt(1.0);
+                                AutoReject = true;
                             })
-                            .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                clawIntakeThread.start();
-                            })
-                            .lineToConstantHeading(new Vector2d(-61, 37),//-2
-                                    SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                    SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                            .lineToLinearHeading(new Pose2d(-60, 40, Math.toRadians(195)))
                             .build(); //-21, -60
                     if (!drive.isBusy()) {
                         currentState = State.PixelPickup1;
@@ -324,6 +300,13 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                         currentState = State.PixelPickup2;
                         TrajectorySequence BackboardPixel2 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
+                                .addTemporalMarker(0.5, () -> {
+                                    intake.horiPower(0.90);
+                                    intake.setIntakeRoller(-1);
+                                })
+                                .addTemporalMarker(0.5, () -> {
+                                    intake.verticalPower(-0.8);
+                                })
                                 .addTemporalMarker(2.5, () -> {
                                     claw.upperClaw(false);
                                     upperClawOpen = false;
@@ -337,11 +320,10 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
-                        .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                            runClawIntakeThread = false;
-                        })
+
                         .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     intake.horiPower(0.0);
+                            AutoReject = false;
                                 })
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     intake.verticalPower(0.0);
@@ -366,7 +348,7 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
                                 .waitSeconds(1)
-                                .splineTo(new Vector2d(52.5, 35.5), Math.toRadians(0),
+                                .splineTo(new Vector2d(53.2, 35.5), Math.toRadians(0),
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -439,20 +421,6 @@ public class BlueLeftBack2plus2 extends LinearOpMode {
             }
         }
 
-        runClawIntakeThread = false; // Signal the thread to stop
-        clawIntakeThread.interrupt();
-        try {
-            clawIntakeThread.join(); // Wait for the thread to finish
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        asyncThread = false;
-        asyncUpdatesThread.interrupt();
-        try {
-            asyncUpdatesThread.join(); // Wait for the thread to finish
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
 
     }
 
