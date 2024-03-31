@@ -113,6 +113,8 @@ public class teleOp extends LinearOpMode {
         claw claw = new claw(hardwareMap);
         intake intake = new intake(hardwareMap);
         lift.enablePID(false);
+        lift.noLimits = true;
+        lift.bringHerHome();
 
         //distance = hardwareMap.get(DistanceSensor.class, "distance");
         //distance2 = hardwareMap.get(DistanceSensor.class, "distance2");
@@ -159,11 +161,16 @@ public class teleOp extends LinearOpMode {
 
         telemetry.addData("start", "Ready to start");
         telemetry.update();
+
         waitForStart();
         telemetry.clearAll();
+        lift.noLimits=false;
+
+        lift.resetLift();
 
         if (isStopRequested()) return;
         resetRuntime();
+
 
         while (opModeIsActive()) {
             previousGamepad1.copy(currentGamepad1);

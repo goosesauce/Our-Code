@@ -14,6 +14,7 @@ public class lift{
     LiftVariables variables;
     private double rawHeight, liftPower, targetEncoderValue = 0, startOffsetHeight;
 
+    public boolean noLimits =false;
     private boolean PIDEnabled = false;
 
     BasicPID controller = new BasicPID(config.lift);
@@ -37,6 +38,15 @@ public class lift{
         } else power = manualLift(liftPower);
         lift.setPower(power);
     }
+    public void resetLift(){
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    public void bringHerHome(){
+        if (noLimits){
+            lift.setPower(-0.1);
+        }
+    }
 
     public void enablePID(boolean pid){
         this.PIDEnabled = pid;
@@ -54,7 +64,7 @@ public class lift{
     private double manualLift(double power){
         double output;
 
-        if(rawHeight < 30 && power < 0){
+         if(rawHeight < 30 && power < 0){
             output = 0;
         } else if(rawHeight < 300 && power < 0){
             output = power * 0.3;
