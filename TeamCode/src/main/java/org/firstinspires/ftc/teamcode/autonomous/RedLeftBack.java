@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import java.util.List;
 
 
-@Autonomous(name="RedRightBack", group="FSMAuto", preselectTeleOp="RightTeleOp")
+@Autonomous(name="RedLeftBack", group="FSMAuto", preselectTeleOp="RightTeleOp")
 public class RedLeftBack extends LinearOpMode {
     private DistanceSensor distance;
     private DistanceSensor distance2;
