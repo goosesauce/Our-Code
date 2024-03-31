@@ -112,6 +112,7 @@ public class teleOp extends LinearOpMode {
         lift lift = new lift(hardwareMap);
         claw claw = new claw(hardwareMap);
         intake intake = new intake(hardwareMap);
+        claw.update();
         lift.enablePID(false);
         lift.noLimits = true;
         lift.bringHerHome();
