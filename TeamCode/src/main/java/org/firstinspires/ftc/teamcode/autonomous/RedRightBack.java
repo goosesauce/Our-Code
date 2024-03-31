@@ -152,8 +152,8 @@ public class RedRightBack extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .strafeTo(new Vector2d(16, 50))
-                                .lineToLinearHeading(new Pose2d(12, 32, Math.toRadians(-180)))
+                                .strafeTo(new Vector2d(16, -50))
+                                .lineToLinearHeading(new Pose2d(12, -32, Math.toRadians(-180)))
                                 .build();
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
@@ -172,7 +172,7 @@ public class RedRightBack extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(28, 25, Math.toRadians(-180)))//y25x24
+                                .lineToLinearHeading(new Pose2d(28, -25, Math.toRadians(-180)))//y25x24
                                 .build(); //-21, -60
 
                         if (!drive.isBusy()) {
@@ -192,7 +192,7 @@ public class RedRightBack extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(34, 32, Math.toRadians(-180)))
+                                .lineToLinearHeading(new Pose2d(34, -32, Math.toRadians(-180)))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
