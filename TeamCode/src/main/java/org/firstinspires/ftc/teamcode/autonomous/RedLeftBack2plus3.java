@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import java.util.List;
 
 
-@Autonomous(name="BlueRightBack", group="FSMAuto", preselectTeleOp="RightTeleOp")
-public class BlueRightBack extends LinearOpMode {
+@Autonomous(name="RedLeftBack2plus3", group="FSMAuto", preselectTeleOp="teleOp")
+public class RedLeftBack2plus3 extends LinearOpMode {
     private DistanceSensor distance;
     private DistanceSensor distance2;
     boolean lowerClawOpen = true;
@@ -59,8 +59,8 @@ public class BlueRightBack extends LinearOpMode {
         IDLE
     }
     // Default to the idle state and define our start pos
-    BlueRightBack.State currentState = BlueRightBack.State.IDLE;
-    Pose2d startPose = new Pose2d(-35.75, 62.75, Math.toRadians(90));
+    RedLeftBack2plus3.State currentState = RedLeftBack2plus3.State.IDLE;
+    Pose2d startPose = new Pose2d(-34.75, -62.75, Math.toRadians(270));
     //Pose2d startPose = new Pose2d(11.5, 62.75, Math.toRadians(90));
 
     //47.25 difference
@@ -70,7 +70,7 @@ public class BlueRightBack extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         new hardwareInit(hardwareMap);
-        setColour("Blue"); //Blue or Red
+        setColour("Red"); //Blue or Red
         lift lift = new lift(hardwareMap);
         intake intake = new intake(hardwareMap);
         claw claw = new claw(hardwareMap);
@@ -91,7 +91,7 @@ public class BlueRightBack extends LinearOpMode {
         claw.update();
 
 
-        currentState = BlueRightBack.State.State1;
+        currentState = RedLeftBack2plus3.State.State1;
         for (LynxModule hub : allHubs) {
             hub.clearBulkCache();
         }
@@ -149,8 +149,7 @@ public class BlueRightBack extends LinearOpMode {
                     if (position==1){
                         TrajectorySequence State1SeqPos1 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-40, 46, Math.toRadians(0)))//y44.75
-                                .lineToLinearHeading(new Pose2d(-32, 41, Math.toRadians(315)))
+                                .lineToLinearHeading(new Pose2d(-44.75, -44.75, Math.toRadians(90)))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.State2;
@@ -162,7 +161,7 @@ public class BlueRightBack extends LinearOpMode {
                         TrajectorySequence State1SeqPos2 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 //.lineToLinearHeading(new Pose2d(-40, 44.75, Math.toRadians(0)))
-                                .lineToLinearHeading(new Pose2d(-43, 38, Math.toRadians(290))) //was36.75 and 270
+                                .lineToLinearHeading(new Pose2d(-43, -38, Math.toRadians(70))) //was36.75 and 270
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.State2;
@@ -173,8 +172,8 @@ public class BlueRightBack extends LinearOpMode {
                     } else {
                         TrajectorySequence State1SeqPos3 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-44.75, 44.75, Math.toRadians(270)))
-                                //.splineTo(new Vector2d(-44.75, 44.75), Math.toRadians(270))
+                                .lineToLinearHeading(new Pose2d(-40, -46, Math.toRadians(0)))//may need to change turn through point
+                                .lineToLinearHeading(new Pose2d(-32, -41, Math.toRadians(45)))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.State2;
@@ -184,7 +183,7 @@ public class BlueRightBack extends LinearOpMode {
                     }
 ////////////////////////////////////////////   Move 2    //////////////////////////////////////////
                 case State2:
-                    if (position==3) {
+                    if (position==1) {
                         TrajectorySequence State2Seq = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .waitSeconds(0.5)
@@ -192,7 +191,7 @@ public class BlueRightBack extends LinearOpMode {
                                 .addTemporalMarker(0, () -> claw.lowerClaw(true))
                                 .addTemporalMarker(0, () -> lowerClawOpen = true)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .lineToConstantHeading(new Vector2d(-44.75, 47))
+                                .lineToConstantHeading(new Vector2d(-44.75, -47))
                                 .build(); //-21, -60*/
                         if (!drive.isBusy()) {
                             currentState = State.State14;
@@ -207,10 +206,10 @@ public class BlueRightBack extends LinearOpMode {
                     }
 
                 case State14:
-                    if (position==3) {
+                    if (position==1) {
                         TrajectorySequence State14Seq3 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-50, 47, Math.toRadians(225)))//y47
+                                .lineToLinearHeading(new Pose2d(-50, -47, Math.toRadians(135)))//y47
                                 .build(); //-21, -60*/
                         if (!drive.isBusy()) {
                             currentState = State.State3;
@@ -228,7 +227,7 @@ public class BlueRightBack extends LinearOpMode {
                                 .addTemporalMarker(0, () -> lowerClawOpen = true)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
                                 //.lineToConstantHeading(new Vector2d(-44.75, 47))
-                                .lineToLinearHeading(new Pose2d(-50, 47, Math.toRadians(225)))//y47
+                                .lineToLinearHeading(new Pose2d(-50, -47, Math.toRadians(135)))//y47
                                 .build(); //-21, -60*/
                         if (!drive.isBusy()) {
                             currentState = State.State3;
@@ -249,7 +248,7 @@ public class BlueRightBack extends LinearOpMode {
                                 intake.setIntakebelt(1.0);
                                 AutoReject = true;
                             })
-                            .lineToLinearHeading(new Pose2d(-60, 40, Math.toRadians(195)))//was y 39
+                            .lineToLinearHeading(new Pose2d(-60, -40, Math.toRadians(165)))//was y 39
 
                             .build(); //-21, -60
                     if (!drive.isBusy()) {
@@ -268,7 +267,7 @@ public class BlueRightBack extends LinearOpMode {
                             .addTemporalMarker(0, () -> {
                                 intake.verticalPower(-0.8);
                             })
-                            .lineToLinearHeading(new Pose2d(-58, 40, Math.toRadians(195)))
+                            .lineToLinearHeading(new Pose2d(-58, -40, Math.toRadians(165)))
 
                             //was y 39
 
@@ -293,7 +292,7 @@ public class BlueRightBack extends LinearOpMode {
                             })*/
 
 
-                            .lineToLinearHeading(new Pose2d(-35, 60, Math.toRadians(180)))
+                            .lineToLinearHeading(new Pose2d(-35, -60, Math.toRadians(180)))
                             //.splineTo(new Vector2d(-35, 59), Math.toRadians(0))
 
                             .build();
@@ -307,7 +306,7 @@ public class BlueRightBack extends LinearOpMode {
                     ////////here's where an if statement would be
                         TrajectorySequence State5Seq = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToConstantHeading(new Vector2d(12, 60))
+                                .lineToConstantHeading(new Vector2d(12, -60))
                                 .addTemporalMarker(0, () -> {
                                     claw.upperClaw(false);
                                     upperClawOpen = false;
@@ -347,7 +346,7 @@ public class BlueRightBack extends LinearOpMode {
                                 })*/
 
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(53, 45.5, Math.toRadians(180)))//52.5
+                                .lineToLinearHeading(new Pose2d(53, -33, Math.toRadians(180)))//52.5
                                 //.splineTo(new Vector2d(52.5, 33), Math.toRadians(0))
 
 
@@ -376,7 +375,7 @@ public class BlueRightBack extends LinearOpMode {
                                 })
 
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(53.5, 40.5, Math.toRadians(180)))//52.5
+                                .lineToLinearHeading(new Pose2d(53.5, -40.5, Math.toRadians(180)))//52.5
                                 //.splineTo(new Vector2d(52.5, 33), Math.toRadians(0))
 
 
@@ -405,7 +404,7 @@ public class BlueRightBack extends LinearOpMode {
                                 })
 
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(53, 33, Math.toRadians(180)))//52.5
+                                .lineToLinearHeading(new Pose2d(53, -45.5, Math.toRadians(180)))//52.5
                                 //.splineTo(new Vector2d(52.5, 33), Math.toRadians(0))
 
 
@@ -442,7 +441,7 @@ public class BlueRightBack extends LinearOpMode {
                             })
 
                             .waitSeconds(0.4)
-                            .lineToLinearHeading(new Pose2d(12, 60, Math.toRadians(180)))
+                            .lineToLinearHeading(new Pose2d(12, -60, Math.toRadians(180)))
 
 
 
@@ -462,7 +461,7 @@ public class BlueRightBack extends LinearOpMode {
 
                             .setReversed(false)
 
-                            .lineToConstantHeading(new Vector2d(-35, 60))
+                            .lineToConstantHeading(new Vector2d(-35, -60))
 
 
 
@@ -477,7 +476,7 @@ public class BlueRightBack extends LinearOpMode {
                     TrajectorySequence State9Seq = drive.trajectorySequenceBuilder(poseEstimate)
 
                             .setReversed(false)
-                            .lineToLinearHeading(new Pose2d(-60, 42, Math.toRadians(205))) // was x-60 y40 angle 195
+                            .lineToLinearHeading(new Pose2d(-60, -42, Math.toRadians(155))) // was x-60 y40 angle 195
                             .addTemporalMarker(0, () -> {
                                 intake.horiPower(-1.0);
                                 intake.verticalPower(1.0);
@@ -502,11 +501,11 @@ public class BlueRightBack extends LinearOpMode {
                                 intake.horiPower(0.60);
                                 intake.setIntakeRoller(-1);
                             })
-                            .lineToLinearHeading(new Pose2d(-35, 60, Math.toRadians(180)))
+                            .lineToLinearHeading(new Pose2d(-35, -60, Math.toRadians(180)))
                             //.splineTo(new Vector2d(-35, 59), Math.toRadians(0))
                             .build();
                     if (!drive.isBusy()) {
-                        if (position==1){
+                        if (position==3){
                             currentState = State.State12;
                             drive.followTrajectorySequenceAsync(State10Seq);
                         } else {
@@ -528,7 +527,7 @@ public class BlueRightBack extends LinearOpMode {
 
                             })
                             .setReversed(true)
-                            .lineToConstantHeading(new Vector2d(12, 60))
+                            .lineToConstantHeading(new Vector2d(12, -60))
 
                             .build();
                     if (!drive.isBusy()) {
@@ -537,10 +536,10 @@ public class BlueRightBack extends LinearOpMode {
                     }
                     break;
                 case State12:
-                    if (position == 1){
+                    if (position == 3){
                         TrajectorySequence State12Seq1 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(50, 60, Math.toRadians(180)))//was 35.5
+                                .lineToLinearHeading(new Pose2d(50, -60, Math.toRadians(180)))//was 35.5
                                 .addTemporalMarker(0, () -> {
                                     AutoReject=false;
                                     intake.horiPower(0.0);
@@ -560,7 +559,7 @@ public class BlueRightBack extends LinearOpMode {
                     } else {
                         TrajectorySequence State12Seq = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(52.5, 42, Math.toRadians(180)))//was 35.5
+                                .lineToLinearHeading(new Pose2d(52.5, -42, Math.toRadians(180)))//was 35.5
                                 .addTemporalMarker(0, () -> {
                                     lift.setTargetHeight(1000, 0);
                                     claw.setDeliverArm("delivery");
@@ -584,7 +583,7 @@ public class BlueRightBack extends LinearOpMode {
                         break;
                     }
                 case State13:
-                    if (position == 1){
+                    if (position == 3){
                         currentState = State.IDLE;
                         break;
                     } else {
@@ -603,7 +602,7 @@ public class BlueRightBack extends LinearOpMode {
                                 })
                                 .waitSeconds(0.2)
                                 .setReversed(false)
-                                .lineToLinearHeading(new Pose2d(46, 46, Math.toRadians(180))) //was y-40
+                                .lineToLinearHeading(new Pose2d(46, -46, Math.toRadians(180))) //was y-40
                                 .build();
                         if (!drive.isBusy()) {
                             currentState = State.IDLE;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.autonomous.old;
 
 import static org.firstinspires.ftc.teamcode.functions.detection.getPosition;
 import static org.firstinspires.ftc.teamcode.functions.detection.setColour;
@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
@@ -22,8 +23,9 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import java.util.List;
 
 
-@Autonomous(name="SafeBlueAutoLeftSide", group="FSMAuto", preselectTeleOp="RightTeleOp")
-public class SafeBlueAutoLeftSide extends LinearOpMode {
+@Autonomous(name="SafeRedAutoRightSide", group="FSMAuto", preselectTeleOp="RightTeleOp")
+@Disabled
+public class SafeRedAutoRightSide extends LinearOpMode {
     private DistanceSensor distance;
     private DistanceSensor distance2;
     boolean lowerClawOpen = true;
@@ -53,15 +55,16 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
         IDLE
     }
     // Default to the idle state and define our start pos
-    SafeBlueAutoLeftSide.State currentState = SafeBlueAutoLeftSide.State.IDLE;
-    Pose2d startPose = new Pose2d(12, 63, Math.toRadians(90));
+    SafeRedAutoRightSide.State currentState = SafeRedAutoRightSide.State.IDLE;
+    Pose2d startPose = new Pose2d(12, -63, Math.toRadians(-90));
+    //Pose2d startPose = new Pose2d(-63, -38.7, Math.toRadians(0));
 
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         new hardwareInit(hardwareMap);
-        setColour("Blue"); //Blue or Red
+        setColour("Red"); //Blue or Red
         lift lift = new lift(hardwareMap);
         intake intake = new intake(hardwareMap);
         claw claw = new claw(hardwareMap);
@@ -125,10 +128,10 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
         };
 
         clawIntakeThread = new Thread(clawIntakeControl);
-
+        clawIntakeThread.start();
         asyncUpdatesThread = new Thread(asyncUpdates);
 
-        currentState = SafeBlueAutoLeftSide.State.SpikeDelivery;
+        currentState = SafeRedAutoRightSide.State.SpikeDelivery;
         while (!isStarted() && !isStopRequested()) {
             position = getPosition();
             telemetry.addData("Position" , position);
@@ -148,14 +151,14 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
             drive.update();
 
             switch (currentState) {
-                case SpikeDelivery:
+                case SpikeDelivery: //.splineTo(new Vector2d(52, -27.5), Math.toRadians(0))
                     if (position == 1) {
                         TrajectorySequence LeftPos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .addTemporalMarker(0, () -> intake.horiPower(0.5))
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.))
                                 .addTemporalMarker(0.5, () -> {
-                                    lift.setTargetHeight(400, 0);
+                                    lift.setTargetHeight(500, 0);
                                 })
                                 .addTemporalMarker(0.5, () -> {
                                     claw.setDeliverArm("delivery");
@@ -164,7 +167,8 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(34, 30, Math.toRadians(-180)))
+                                .strafeTo(new Vector2d(18, -50))
+                                .lineToLinearHeading(new Pose2d(12, -37, Math.toRadians(-180)))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
@@ -176,7 +180,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.5))
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.))
                                 .addTemporalMarker(0.5, () -> {
-                                    lift.setTargetHeight(400, 0);
+                                    lift.setTargetHeight(500, 0);
                                 })
                                 .addTemporalMarker(0.5, () -> {
                                     claw.setDeliverArm("delivery");
@@ -185,7 +189,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(24, 25, Math.toRadians(-180)))
+                                .lineToLinearHeading(new Pose2d(24, -25, Math.toRadians(-180)))
                                 .build(); //-21, -60
 
                         if (!drive.isBusy()) {
@@ -198,7 +202,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.5))
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.))
                                 .addTemporalMarker(0.5, () -> {
-                                    lift.setTargetHeight(400, 0);
+                                    lift.setTargetHeight(500, 0);
                                 })
                                 .addTemporalMarker(0.5, () -> {
                                     claw.setDeliverArm("delivery");
@@ -207,8 +211,8 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .strafeTo(new Vector2d(18, 50))
-                                .lineToLinearHeading(new Pose2d(12, 37, Math.toRadians(-180)))
+                                .lineToLinearHeading(new Pose2d(34, -30, Math.toRadians(-180)))
+
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
@@ -220,10 +224,10 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                     if (position == 1) {
                         TrajectorySequence LeftPosBackboard = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .addTemporalMarker(0, () -> intake.horiPower(-0.7))
+                                .addTemporalMarker(0, () -> intake.horiPower(-0.8))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineTo(new Vector2d(51, 44), Math.toRadians(0))//was28.5
+                                .splineTo(new Vector2d(51, -30), Math.toRadians(0))//was28.5
                                 .build(); //-21, -60*/
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -235,7 +239,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(-0.5))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineTo(new Vector2d(51, 39), Math.toRadians(0))
+                                .splineTo(new Vector2d(51, -36), Math.toRadians(0))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -244,13 +248,10 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                     } else {
                         TrajectorySequence RightPosBackboard = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .addTemporalMarker(0, () -> intake.horiPower(-0.8))
+                                .addTemporalMarker(0, () -> intake.horiPower(-0.7))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-
-                                .splineToConstantHeading(new Vector2d(51, 33), Math.toRadians(0),
-                                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)).
+                                .splineToConstantHeading(new Vector2d(51, -41), Math.toRadians(0)).
                                 build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -271,11 +272,10 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 claw.lowerClaw(true);
                                 lowerClawOpen = true;
                             })
-                            .addTemporalMarker(0.1, () -> {claw.update();})
-                            .waitSeconds(1)
-                            .addTemporalMarker(1.4, () -> claw.setRotateAngle("intake", 0.0))
-                            .addTemporalMarker(1.7, () -> lift.setTargetHeight(0, 0))
-                            .addTemporalMarker(1.7, () -> {
+                            .waitSeconds(0.5)
+                            .addTemporalMarker(1.2, () -> claw.setRotateAngle("intake", 0.0))
+                            .addTemporalMarker(1.6, () -> lift.setTargetHeight(0, 0))
+                            .addTemporalMarker(1.6, () -> {
                                 claw.setDeliverArm("intake");
                                 armIn = true;
                             })
@@ -283,14 +283,13 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                             .addTemporalMarker(4, () -> intake.verticalPower(1.0))
                             .addTemporalMarker(4, () -> intake.setIntakeRoller(1.0))
                             .addTemporalMarker(4, () -> intake.setIntakebelt(1.0))
-                            .addTemporalMarker(4,() -> clawIntakeThread.start())
-                            .splineTo(new Vector2d(24, 11), Math.toRadians(180),//-2
+                            .splineTo(new Vector2d(24, -13), Math.toRadians(180),
                                     SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                            .lineToConstantHeading(new Vector2d(-56, 12),//-2
+                            .lineToConstantHeading(new Vector2d(-56, -14),
                                     SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                            .lineToConstantHeading(new Vector2d(-61, 12),//-2
+                            .lineToConstantHeading(new Vector2d(-61, -14),
                                     SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                             .build(); //-21, -60
@@ -318,7 +317,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                     lowerClawOpen = false;
                                 })
                                 //.waitSeconds(0.2) //was0.4
-                                .lineToConstantHeading(new Vector2d(12, 12), //-2
+                                .lineToConstantHeading(new Vector2d(12, -14),
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -332,7 +331,7 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
                                 .waitSeconds(5)
-                                .splineTo(new Vector2d(52, 35.5), Math.toRadians(0),
+                                .splineTo(new Vector2d(52, -35.5), Math.toRadians(0),
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -373,21 +372,20 @@ public class SafeBlueAutoLeftSide extends LinearOpMode {
                                 .setReversed(false)
                                 .addTemporalMarker(0, () -> {
                                     claw.upperClaw(true);
-                                    claw.update();
                                     upperClawOpen = true;
                                 })
                                 .addTemporalMarker(0, () -> {
                                     claw.lowerClaw(true);
                                     lowerClawOpen = true;
                                 })
-                                .addTemporalMarker(1.4, () -> claw.setRotateAngle("intake", 0.0))
-                                .addTemporalMarker(1.7, () -> lift.setTargetHeight(0, 0))
-                                .addTemporalMarker(1.7, () -> {
+                                .addTemporalMarker(0.4, () -> claw.setRotateAngle("intake", 0.0))
+                                .addTemporalMarker(0.7, () -> lift.setTargetHeight(0, 0))
+                                .addTemporalMarker(0.7, () -> {
                                     claw.setDeliverArm("intake");
                                     armIn = true;
                                 })
-                                .waitSeconds(1) //was 0.4
-                                .lineToLinearHeading(new Pose2d(44, 10, Math.toRadians(180))) //-2
+                                .waitSeconds(0.2) //was 0.4
+                                .lineToLinearHeading(new Pose2d(44, -12, Math.toRadians(180)))
                                 .build();
                         drive.followTrajectorySequenceAsync(BackboardPixel4);
                     }

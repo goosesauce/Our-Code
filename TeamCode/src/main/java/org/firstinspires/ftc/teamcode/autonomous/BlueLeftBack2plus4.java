@@ -22,8 +22,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import java.util.List;
 
 
-@Autonomous(name="NewTestieTestNew", group="FSMAuto", preselectTeleOp="teleOp")
-public class NewTestieTestNew extends LinearOpMode {
+@Autonomous(name="BlueLeftBack2plus4", group="FSMAuto", preselectTeleOp="teleOp")
+public class BlueLeftBack2plus4 extends LinearOpMode {
 
 
     private DistanceSensor distance;
@@ -45,7 +45,6 @@ public class NewTestieTestNew extends LinearOpMode {
     enum State {
         SpikeDelivery,
         BackboardPixel0,
-        testingtest,
         BackboardPixel1,
         PixelPickup1,
         BackboardPixel2,
@@ -57,8 +56,8 @@ public class NewTestieTestNew extends LinearOpMode {
         IDLE
     }
     // Default to the idle state and define our start pos
-    NewTestieTestNew.State currentState = NewTestieTestNew.State.IDLE;
-    Pose2d startPose = new Pose2d(-34.75, -62.75, Math.toRadians(-90));
+    BlueLeftBack2plus4.State currentState = BlueLeftBack2plus4.State.IDLE;
+    Pose2d startPose = new Pose2d(12, -62.75, Math.toRadians(-90));
     //Pose2d startPose = new Pose2d(-63, -38.7, Math.toRadians(0));
 
 
@@ -135,7 +134,7 @@ public class NewTestieTestNew extends LinearOpMode {
 
 
         long lastLoopTime = System.nanoTime();
-        currentState = NewTestieTestNew.State.SpikeDelivery;
+        currentState = BlueLeftBack2plus4.State.SpikeDelivery;
         boolean set = false;
         while (!isStarted() && !isStopRequested()) {
             position = getPosition();
@@ -160,8 +159,18 @@ public class NewTestieTestNew extends LinearOpMode {
                     if (position == 1) {
                         TrajectorySequence LeftPos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-44.75, -44.75, Math.toRadians(-270)))
+                                .addTemporalMarker(0.5, () -> {
+                                    lift.setTargetHeight(600, 0);
+                                })
+                                .addTemporalMarker(0.5, () -> {
+                                    claw.setDeliverArm("delivery");
+                                    armIn = false;
+                                })
+                                .addTemporalMarker(0.8, () -> {
+                                    claw.setRotateAngle("horizontal", 0.0);
+                                })
+                                .strafeTo(new Vector2d(16, -50))
+                                .lineToLinearHeading(new Pose2d(12, -36, Math.toRadians(-180)))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
@@ -170,7 +179,18 @@ public class NewTestieTestNew extends LinearOpMode {
                     } else if (position == 2) {
                         TrajectorySequence MiddlePos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-43, -38, Math.toRadians(70))) //was36.75 and 270
+                                .addTemporalMarker(0.5, () -> {
+                                    lift.setTargetHeight(600, 0);
+                                })
+                                .addTemporalMarker(0.5, () -> {
+                                    claw.setDeliverArm("delivery");
+                                    armIn = false;
+                                })
+                                .addTemporalMarker(0.8, () -> {
+                                    claw.setRotateAngle("horizontal", 0.0);
+                                })
+                                .strafeTo(new Vector2d(28, -40))
+                                .lineToLinearHeading(new Pose2d(26, -26, Math.toRadians(-180)))
                                 .build(); //-21, -60
 
                         if (!drive.isBusy()) {
@@ -180,8 +200,18 @@ public class NewTestieTestNew extends LinearOpMode {
                     } else {
                         TrajectorySequence RightPos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-40, -46, Math.toRadians(0)))//may need to change turn through point
-                                .lineToLinearHeading(new Pose2d(-32, -41, Math.toRadians(45)))
+                                .addTemporalMarker(0.5, () -> {
+                                    lift.setTargetHeight(600, 0);
+                                })
+                                .addTemporalMarker(0.5, () -> {
+                                    claw.setDeliverArm("delivery");
+                                    armIn = false;
+                                })
+                                .addTemporalMarker(0.8, () -> {
+                                    claw.setRotateAngle("horizontal", 0.0);
+                                })
+                                .lineToLinearHeading(new Pose2d(34, -36, Math.toRadians(-180)))
+
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
@@ -193,105 +223,42 @@ public class NewTestieTestNew extends LinearOpMode {
                     if (position == 1) {
                         TrajectorySequence LeftPosBackboard = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .waitSeconds(0.5)
-                                .addTemporalMarker(0, () -> intake.horiPower(1.0))
-                                .addTemporalMarker(0, () -> claw.lowerClaw(true))
-                                .addTemporalMarker(0, () -> lowerClawOpen = true)
+                                .addTemporalMarker(0, () -> intake.horiPower(0.7))
+                                //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .lineToConstantHeading(new Vector2d(-44.75, -47)) //-21, -60*/
-                                .build();
+                                .splineTo(new Vector2d(52, -31), Math.toRadians(0))//was28.5
+                                .build(); //-21, -60*/
                         if (!drive.isBusy()) {
-                            currentState = State.testingtest;
+                            currentState = State.BackboardPixel1;
                             drive.followTrajectorySequenceAsync(LeftPosBackboard);
                         }
-                    } else  {
+                    } else if (position == 2) {
                         TrajectorySequence MiddlePosBackboard = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .setReversed(true)
-                                .waitSeconds(0.5)
-                                .addTemporalMarker(0, () -> intake.horiPower(0.8))
-                                .addTemporalMarker(0, () -> claw.lowerClaw(true))
-                                .addTemporalMarker(0, () -> lowerClawOpen = true)
+                                .addTemporalMarker(0, () -> intake.horiPower(0.5))
+                                //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                //.lineToConstantHeading(new Vector2d(-44.75, 47))
-                                .addTemporalMarker(1, () -> intake.horiPower(-1.0))
-                                .addTemporalMarker(1, () -> intake.verticalPower(1.0))
-                                .addTemporalMarker(1, () -> intake.setIntakeRoller(1.0))
-                                .addTemporalMarker(1, () -> intake.setIntakebelt(1.0))
-                                .lineToLinearHeading(new Pose2d(-62.5, -40, Math.toRadians(195)))
+                                .splineTo(new Vector2d(52, -35.5), Math.toRadians(0))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
                             drive.followTrajectorySequenceAsync(MiddlePosBackboard);
                         }
-                    }
-                    break;
-                case testingtest:
-                    TrajectorySequence LeftPosBackboard21 = drive.trajectorySequenceBuilder(poseEstimate)
+                    } else {
+                        TrajectorySequence RightPosBackboard = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .addTemporalMarker(0, () -> intake.horiPower(-1.0))
-                                .addTemporalMarker(0, () -> intake.verticalPower(1.0))
-                                .addTemporalMarker(0, () -> intake.setIntakeRoller(1.0))
-                                .addTemporalMarker(0, () -> intake.setIntakebelt(1.0))
-                                .lineToLinearHeading(new Pose2d(-62.5, -40, Math.toRadians(-180)))
-                                .build();
+                                .addTemporalMarker(0, () -> intake.horiPower(0.7))
+                                //.waitSeconds(0.3)
+                                .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
+                                .splineToConstantHeading(new Vector2d(52, -42.5), Math.toRadians(0)).
+                                build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
-                            drive.followTrajectorySequenceAsync(LeftPosBackboard21);
+                            drive.followTrajectorySequenceAsync(RightPosBackboard);
                         }
-                        break;
-                case BackboardPixel1:
-                    double ypos =0;
-                    if (position ==1){
-                        ypos = -31.0;
-                    } else if (position == 1){
-                        ypos = -35.5;
-                    } else {
-                        ypos = -42.5;
-                    }
-                    if (!drive.isBusy()) {
-                        currentState = State.PixelPickup1;
-                        TrajectorySequence BackboardPixel222 = drive.trajectorySequenceBuilder(poseEstimate)
-                                .setReversed(true)
-                                .addTemporalMarker(2.5, () -> {
-                                    claw.upperClaw(false);
-                                    upperClawOpen = false;
-                                })
-                                .addTemporalMarker(2.5, () -> {
-                                    claw.lowerClaw(false);
-                                    lowerClawOpen = false;
-                                })
-                                //.waitSeconds(0.2) //was0.4
-                                .splineTo(new Vector2d(-40, -60), Math.toRadians(0))
-                                .lineToConstantHeading(new Vector2d(12, -60))
-                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                    lift.setTargetHeight(800, 0);
-                                })
-                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                    claw.setDeliverArm("delivery");
-                                    armIn = false;
-                                })
-                                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
-                                    claw.setRotateAngle("horizontal", 0.0);
-                                })
-                                .splineTo(new Vector2d(52, ypos), Math.toRadians(0))
-                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                    intake.horiPower(0.0);
-                                })
-                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                    intake.verticalPower(0.0);
-                                })
-                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                    intake.setIntakeRoller(0.0);
-                                })
-                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                                    intake.setIntakebelt(0.0);
-                                })
-                                .build();
-                        drive.followTrajectorySequenceAsync(BackboardPixel222);
                     }
                     break;
-                case PixelPickup1: //.splineTo(new Vector2d(24, -13), Math.toRadians(180))
+                case BackboardPixel1:
                     TrajectorySequence LeftPosBackboarddepart = drive.trajectorySequenceBuilder(poseEstimate)
                             .setReversed(false)
                             .addTemporalMarker(0, () -> {
@@ -325,8 +292,13 @@ public class NewTestieTestNew extends LinearOpMode {
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))*/
                             .build(); //-21, -60
                     if (!drive.isBusy()) {
-                        currentState = State.BackboardPixel2;
+                        currentState = State.PixelPickup1;
                         drive.followTrajectorySequenceAsync(LeftPosBackboarddepart);
+                    }
+                    break;
+                case PixelPickup1: //.splineTo(new Vector2d(24, -13), Math.toRadians(180))
+                    if (!drive.isBusy()) {
+                        currentState = State.BackboardPixel2;
                     }
                     break;
                 case BackboardPixel2:

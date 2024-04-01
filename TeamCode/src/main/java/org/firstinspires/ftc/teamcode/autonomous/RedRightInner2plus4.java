@@ -24,8 +24,8 @@ import static org.firstinspires.ftc.teamcode.functions.detection.setColour;
 import org.firstinspires.ftc.teamcode.functions.hardwareInit;
 
 
-@Autonomous(name="RedRight2plus4", group="FSMAuto", preselectTeleOp="teleOp")
-public class RedRight2plus4 extends LinearOpMode {
+@Autonomous(name="RedRightInner2plus4", group="FSMAuto", preselectTeleOp="teleOp")
+public class RedRightInner2plus4 extends LinearOpMode {
 
 
     private DistanceSensor distance;
@@ -58,7 +58,7 @@ public class RedRight2plus4 extends LinearOpMode {
         IDLE
     }
     // Default to the idle state and define our start pos
-    RedRight2plus4.State currentState = RedRight2plus4.State.IDLE;
+    RedRightInner2plus4.State currentState = RedRightInner2plus4.State.IDLE;
     Pose2d startPose = new Pose2d(12, -62.75, Math.toRadians(-90));
     //Pose2d startPose = new Pose2d(-63, -38.7, Math.toRadians(0));
 
@@ -136,7 +136,7 @@ public class RedRight2plus4 extends LinearOpMode {
 
 
         long lastLoopTime = System.nanoTime();
-        currentState = RedRight2plus4.State.SpikeDelivery;
+        currentState = RedRightInner2plus4.State.SpikeDelivery;
         boolean set = false;
         while (!isStarted() && !isStopRequested()) {
             position = getPosition();

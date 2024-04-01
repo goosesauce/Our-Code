@@ -1,13 +1,15 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.autonomous.old;
 
 import static org.firstinspires.ftc.teamcode.functions.detection.getPosition;
 import static org.firstinspires.ftc.teamcode.functions.detection.setColour;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.functions.hardwareInit;
 
 @Autonomous(name = "DetectionTest", group = "Robot")
+@Disabled
 public class detectionTest extends LinearOpMode {
     int position = 0;
     @Override
