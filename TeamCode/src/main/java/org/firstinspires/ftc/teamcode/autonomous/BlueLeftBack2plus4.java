@@ -57,7 +57,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
     }
     // Default to the idle state and define our start pos
     BlueLeftBack2plus4.State currentState = BlueLeftBack2plus4.State.IDLE;
-    Pose2d startPose = new Pose2d(12, -62.75, Math.toRadians(-90));
+    Pose2d startPose = new Pose2d(12, -62.75, Math.toRadians(-270));
     //Pose2d startPose = new Pose2d(-63, -38.7, Math.toRadians(0));
 
 
@@ -65,7 +65,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         new hardwareInit(hardwareMap);
-        setColour("Red"); //Blue or Red
+        setColour("Blue"); //Blue or Red
         lift lift = new lift(hardwareMap);
         intake intake = new intake(hardwareMap);
         claw claw = new claw(hardwareMap);
@@ -282,7 +282,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                             .waitSeconds(0.2) //was 0.4
                             .splineTo(new Vector2d(24, -60), Math.toRadians(180))
                             .lineToConstantHeading(new Vector2d(-40, -60)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                            .lineToLinearHeading(new Pose2d(-62.5, -40, Math.toRadians(165)))
+                            .lineToLinearHeading(new Pose2d(-62.5, -40, Math.toRadians(195)))
                             /*.lineToConstantHeading(new Vector2d(-62.5, -41),
                                     SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -370,7 +370,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .waitSeconds(0.4) //was 0.6
                                 .splineTo(new Vector2d(24, -60), Math.toRadians(180))
                                 .lineToConstantHeading(new Vector2d(-40, -60)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                                .lineToLinearHeading(new Pose2d(-62.5, -40, Math.toRadians(165)))
+                                .lineToLinearHeading(new Pose2d(-62.5, -40, Math.toRadians(195)))
                                 //.lineToConstantHeading(new Vector2d(-62.5, -41),
                                   //      SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     //    SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
