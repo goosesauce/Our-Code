@@ -149,7 +149,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                     if (position==1){
                         TrajectorySequence State1SeqPos1 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-44.75, -44.75, Math.toRadians(90)))
+                                .lineToLinearHeading(new Pose2d(-44.75, -46, Math.toRadians(90))) //-44.75, -44.75
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.State2;

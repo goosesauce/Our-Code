@@ -180,7 +180,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                         TrajectorySequence MiddlePos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .addTemporalMarker(0.5, () -> {
-                                    lift.setTargetHeight(600, 0);
+                                    lift.setTargetHeight(500, 0);
                                 })
                                 .addTemporalMarker(0.5, () -> {
                                     claw.setDeliverArm("delivery");
@@ -189,8 +189,10 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .strafeTo(new Vector2d(28, 40))
-                                .lineToLinearHeading(new Pose2d(26, 26, Math.toRadians(-180)))
+                                //.strafeTo(new Vector2d(28, 40))
+                                .splineTo(new Vector2d(28, 34), Math.toRadians(0))
+                                //.lineToLinearHeading(new Pose2d(28, 40, Math.toRadians(-225)))
+                                .lineToLinearHeading(new Pose2d(28, 26, Math.toRadians(-180)))
                                 .build(); //-21, -60
 
                         if (!drive.isBusy()) {
@@ -226,7 +228,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.7))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineToConstantHeading(new Vector2d(54, 42.5), Math.toRadians(0)).
+                                .splineToConstantHeading(new Vector2d(55, 42.5), Math.toRadians(0)).
                                 build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -238,7 +240,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.5))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineTo(new Vector2d(54, 36), Math.toRadians(0))
+                                .splineTo(new Vector2d(54, 37), Math.toRadians(0))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -250,7 +252,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.7))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineTo(new Vector2d(54, 31), Math.toRadians(0))//was28.5
+                                .splineTo(new Vector2d(55, 31), Math.toRadians(0))//was28.5
                                 .build(); //-21, -60*/
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -275,14 +277,14 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 claw.setDeliverArm("intake");
                                 armIn = true;
                             })
-                            .addTemporalMarker(3, () -> intake.horiPower(-1.0))
+                            .addTemporalMarker(3, () -> intake.horiPower(-0.70))
                             .addTemporalMarker(3, () -> intake.verticalPower(1.0))
                             .addTemporalMarker(3, () -> intake.setIntakeRoller(1.0))
                             .addTemporalMarker(3, () -> intake.setIntakebelt(1.0))
                             .waitSeconds(0.2) //was 0.4
                             .splineTo(new Vector2d(24, 60), Math.toRadians(180))
                             .lineToConstantHeading(new Vector2d(-40, 60)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                            .lineToLinearHeading(new Pose2d(-62.5, 40, Math.toRadians(195)))
+                            .lineToLinearHeading(new Pose2d(-59.5, 40, Math.toRadians(195)))//.lineToLinearHeading(new Pose2d(-62.5, 40, Math.toRadians(195)))
                             /*.lineToConstantHeading(new Vector2d(-62.5, -41),
                                     SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -315,7 +317,8 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                     lowerClawOpen = false;
                                 })
                                 //.waitSeconds(0.2) //was0.4
-                                .splineTo(new Vector2d(-40, 60), Math.toRadians(0))
+                                .lineToLinearHeading(new Pose2d(-40, 60, Math.toRadians(180)))
+                                //.splineTo(new Vector2d(-40, 60), Math.toRadians(0))
                                 .lineToConstantHeading(new Vector2d(12, 60))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     lift.setTargetHeight(800, 0);
@@ -324,10 +327,10 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                     claw.setDeliverArm("delivery");
                                     armIn = false;
                                 })
-                                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
+                                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .splineTo(new Vector2d(52, 44), Math.toRadians(0))
+                                .splineTo(new Vector2d(54, 44), Math.toRadians(0))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     intake.horiPower(0.0);
                                 })
@@ -363,14 +366,15 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                     claw.setDeliverArm("intake");
                                     armIn = true;
                                 })
-                                .addTemporalMarker(3, () -> intake.horiPower(-1.0))
-                                .addTemporalMarker(3, () -> intake.verticalPower(1.0))
-                                .addTemporalMarker(3, () -> intake.setIntakeRoller(1.0))
-                                .addTemporalMarker(3, () -> intake.setIntakebelt(1.0))
-                                .waitSeconds(0.4) //was 0.6
-                                .splineTo(new Vector2d(24, 60), Math.toRadians(180))
-                                .lineToConstantHeading(new Vector2d(-40, 60)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                                .lineToLinearHeading(new Pose2d(-62.5, 40, Math.toRadians(195)))
+                                .addTemporalMarker(2, () -> intake.horiPower(-1.0))
+                                .addTemporalMarker(2, () -> intake.verticalPower(1.0))
+                                .addTemporalMarker(2, () -> intake.setIntakeRoller(1.0))
+                                .addTemporalMarker(2, () -> intake.setIntakebelt(1.0))
+                                .waitSeconds(0.2) //was 0.6
+                                .splineTo(new Vector2d(24, 61), Math.toRadians(180))
+                                .lineToLinearHeading(new Pose2d(-40, 62, Math.toRadians(180)))
+                                //.lineToConstantHeading(new Vector2d(-40, 60)) //.lineToConstantHeading(new Vector2d(-60, -13))
+                                .lineToLinearHeading(new Pose2d(-59.5, 41, Math.toRadians(190))) //-62.5, 40
                                 //.lineToConstantHeading(new Vector2d(-62.5, -41),
                                   //      SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     //    SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -406,10 +410,10 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                     claw.setDeliverArm("delivery");
                                     armIn = false;
                                 })
-                                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
+                                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .splineTo(new Vector2d(52, 46), Math.toRadians(0))
+                                .splineTo(new Vector2d(53, 44), Math.toRadians(0))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     intake.horiPower(0.0);
                                 })
