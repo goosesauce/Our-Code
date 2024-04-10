@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.autonomous.old;
 
 import static org.firstinspires.ftc.teamcode.functions.detection.getPosition;
 import static org.firstinspires.ftc.teamcode.functions.detection.setColour;
@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
@@ -22,8 +23,9 @@ import org.firstinspires.ftc.teamcode.roadrunner.trajectorysequence.TrajectorySe
 import java.util.List;
 
 
-@Autonomous(name="RedRightBack2plus3", group="FSMAuto", preselectTeleOp="teleOp")
-public class RedRightBack2plus3 extends LinearOpMode {
+@Autonomous(name="BlueLeftBack2plus2", group="FSMAuto", preselectTeleOp="teleOp")
+@Disabled
+public class BlueLeftBack2plus2 extends LinearOpMode {
     private DistanceSensor distance;
     private DistanceSensor distance2;
     boolean lowerClawOpen = true;
@@ -51,8 +53,8 @@ public class RedRightBack2plus3 extends LinearOpMode {
         IDLE
     }
     // Default to the idle state and define our start pos
-    RedRightBack2plus3.State currentState = RedRightBack2plus3.State.IDLE;
-    Pose2d startPose = new Pose2d(12, -62.75, Math.toRadians(270));
+    BlueLeftBack2plus2.State currentState = BlueLeftBack2plus2.State.IDLE;
+    Pose2d startPose = new Pose2d(11.5, 62.75, Math.toRadians(90));
 
     double distance2var = 0.0;
     double distance1var = 0.0;
@@ -62,7 +64,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         new hardwareInit(hardwareMap);
-        setColour("Red"); //Blue or Red
+        setColour("Blue"); //Blue or Red
         lift lift = new lift(hardwareMap);
         intake intake = new intake(hardwareMap);
         claw claw = new claw(hardwareMap);
@@ -88,7 +90,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
 
 
 
-        currentState = RedRightBack2plus3.State.SpikeDelivery;
+        currentState = BlueLeftBack2plus2.State.SpikeDelivery;
         for (LynxModule hub : allHubs) {
             hub.clearBulkCache();
         }
@@ -100,7 +102,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
         telemetry.addData("parking", position);
         telemetry.update();
 
-
+/////////////////////////////////
         while (opModeIsActive() && !isStopRequested()) {
             for (LynxModule hub : allHubs) {
                 hub.clearBulkCache();
@@ -140,7 +142,6 @@ public class RedRightBack2plus3 extends LinearOpMode {
                 case SpikeDelivery:
                     if (position == 1) {
                         TrajectorySequence LeftPos = drive.trajectorySequenceBuilder(poseEstimate)
-
                                 .setReversed(true)
                                 .addTemporalMarker(0.5, () -> {
                                     lift.setTargetHeight(600, 0);
@@ -152,9 +153,8 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .strafeTo(new Vector2d(16, -50))
-                                .lineToLinearHeading(new Pose2d(12, -32, Math.toRadians(180)))
-                                .build();
+                                .lineToLinearHeading(new Pose2d(34, 32, Math.toRadians(-180)))
+                                .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
                             drive.followTrajectorySequenceAsync(LeftPos);
@@ -172,7 +172,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(28, -25, Math.toRadians(-180)))//y25x24
+                                .lineToLinearHeading(new Pose2d(28, 25, Math.toRadians(-180)))//y25x24
                                 .build(); //-21, -60
 
                         if (!drive.isBusy()) {
@@ -192,7 +192,8 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(34, -32, Math.toRadians(-180)))
+                                .strafeTo(new Vector2d(16, 50))
+                                .lineToLinearHeading(new Pose2d(12, 32, Math.toRadians(-180)))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
@@ -204,11 +205,10 @@ public class RedRightBack2plus3 extends LinearOpMode {
                     if (position == 1) {
                         TrajectorySequence LeftPosBackboard = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .addTemporalMarker(0, () -> intake.horiPower(0.6))
+                                .addTemporalMarker(0, () -> intake.horiPower(0.7))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-
-                                .splineTo(new Vector2d(53.2, -33), Math.toRadians(0),
+                                .lineToLinearHeading(new Pose2d(53.2, 44, Math.toRadians(180)),
                                         SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(20))
                                 .build(); //-21, -60*/
@@ -222,7 +222,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.5))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineTo(new Vector2d(53.2, -39.5), Math.toRadians(0),
+                                .splineTo(new Vector2d(53.2, 39.5), Math.toRadians(0),
                                         SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(20))
                                 .build(); //-21, -60
@@ -233,16 +233,14 @@ public class RedRightBack2plus3 extends LinearOpMode {
                     } else {
                         TrajectorySequence RightPosBackboard = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-
-                                .addTemporalMarker(0, () -> intake.horiPower(0.7))
+                                .addTemporalMarker(0, () -> intake.horiPower(0.6))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .lineToLinearHeading(new Pose2d(53.2, -44, Math.toRadians(180)),
+
+                                .splineTo(new Vector2d(53.2, 33), Math.toRadians(0),
                                         SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                                        SampleMecanumDrive.getAccelerationConstraint(20))
-
-
-                                .build(); //-21, -60
+                                        SampleMecanumDrive.getAccelerationConstraint(20)).
+                                build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
                             drive.followTrajectorySequenceAsync(RightPosBackboard);
@@ -271,13 +269,13 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                 armIn = true;
                             })
 
-                            .splineTo(new Vector2d(24, -60), Math.toRadians(180),//-2
+                            .splineTo(new Vector2d(24, 60), Math.toRadians(180),//-2
                                     SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                            .lineToConstantHeading(new Vector2d(-40, -60),//-2
+                            .lineToConstantHeading(new Vector2d(-40, 60),//-2
                                     SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                            .lineToLinearHeading(new Pose2d(-55, -45, Math.toRadians(165)),//-2
+                            .lineToLinearHeading(new Pose2d(-55, 45, Math.toRadians(195)),//-2
                                     SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                             .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -287,7 +285,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                 intake.setIntakebelt(1.0);
                                 AutoReject = true;
                             })
-                            .lineToLinearHeading(new Pose2d(-61, -40, Math.toRadians(165)))
+                            .lineToLinearHeading(new Pose2d(-60, 40, Math.toRadians(195)))
                             .build(); //-21, -60
                     if (!drive.isBusy()) {
                         currentState = State.PixelPickup1;
@@ -320,7 +318,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                     lowerClawOpen = false;
                                 })
                                 //.waitSeconds(0.2) //was0.4
-                                .lineToLinearHeading(new Pose2d(-35, -60, Math.toRadians(180)),//-2
+                                .lineToLinearHeading(new Pose2d(-35, 60, Math.toRadians(180)),//-2
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
 
@@ -338,7 +336,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     intake.setIntakebelt(0.0);
                                 })
-                                .lineToConstantHeading(new Vector2d(12, -60), //-2
+                                .lineToConstantHeading(new Vector2d(12, 60), //-2
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -352,7 +350,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
                                 .waitSeconds(1)
-                                .splineTo(new Vector2d(53.2, -35.5), Math.toRadians(0),
+                                .splineTo(new Vector2d(53.2, 35.5), Math.toRadians(0),
                                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
@@ -407,7 +405,7 @@ public class RedRightBack2plus3 extends LinearOpMode {
                                     armIn = true;
                                 })
                                 .waitSeconds(1) //was 0.4
-                                .lineToLinearHeading(new Pose2d(44, -60, Math.toRadians(180))) //-2
+                                .lineToLinearHeading(new Pose2d(44, 60, Math.toRadians(180))) //-2
                                 .build();
                         drive.followTrajectorySequenceAsync(BackboardPixel4);
                     }

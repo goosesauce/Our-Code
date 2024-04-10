@@ -134,7 +134,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
 
 
                 if (!lowerClawOpen && !upperClawOpen && armIn) {
-                    intake.horiPower(1.0);
+                    intake.horiPower(0.50);
                     intake.verticalPower(-0.7);
                     intake.setIntakeRoller(-1);
                     intake.setIntakebelt(1);
@@ -161,7 +161,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                         TrajectorySequence State1SeqPos2 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 //.lineToLinearHeading(new Pose2d(-40, 44.75, Math.toRadians(0)))
-                                .lineToLinearHeading(new Pose2d(-43, -38, Math.toRadians(70))) //was36.75 and 270
+                                .lineToLinearHeading(new Pose2d(-43, -37.5, Math.toRadians(70))) //was36.75 and 270
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.State2;
@@ -242,7 +242,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                     TrajectorySequence State3Seq = drive.trajectorySequenceBuilder(poseEstimate)
                             .setReversed(false)
                             .addTemporalMarker(0, () -> {
-                                intake.horiPower(-0.60);
+                                intake.horiPower(-0.40);////checkkkk
                                 intake.verticalPower(1.0);
                                 intake.setIntakeRoller(1.0);
                                 intake.setIntakebelt(1.0);
@@ -337,6 +337,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                                     claw.setDeliverArm("delivery");
                                     armIn = false;
                                     intake.horiPower(0.0);
+
                                     intake.verticalPower(0.0);
                                     intake.setIntakeRoller(0.0);
                                     intake.setIntakebelt(0.0);
@@ -346,7 +347,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                                 })*/
 
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(54, -34.5, Math.toRadians(180)))//52.5
+                                .lineToLinearHeading(new Pose2d(54, -35, Math.toRadians(180)))//-34.5
                                 //.splineTo(new Vector2d(52.5, 33), Math.toRadians(0))
 
 
@@ -362,7 +363,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                         TrajectorySequence State6SeqPos2 = drive.trajectorySequenceBuilder(poseEstimate)
 
                                 .addTemporalMarker(0, () -> {
-                                    lift.setTargetHeight(800, 0);
+                                    lift.setTargetHeight(600, 0);
                                     claw.setDeliverArm("delivery");
                                     armIn = false;
                                     intake.horiPower(0.0);
@@ -391,7 +392,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                         TrajectorySequence State6SeqPos3 = drive.trajectorySequenceBuilder(poseEstimate)
 
                                 .addTemporalMarker(0, () -> {
-                                    lift.setTargetHeight(800, 0);
+                                    lift.setTargetHeight(600, 0);
                                     claw.setDeliverArm("delivery");
                                     armIn = false;
                                     intake.horiPower(0.0);
@@ -426,7 +427,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                                 claw.upperClaw(true);
                                 upperClawOpen = true;
                             })
-                            .addTemporalMarker(0, () -> {
+                            .addTemporalMarker(0.2, () -> {
                                 claw.lowerClaw(true);
                                 lowerClawOpen = true;
                             })
@@ -436,16 +437,16 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                                 claw.setDeliverArm("intake");
                                 armIn = true;
                             })
-                            .addTemporalMarker(3, () -> intake.horiPower(-0.60))
+                            .addTemporalMarker(3, () -> intake.horiPower(-0.40))
                             .addTemporalMarker(3, () -> intake.verticalPower(1.0))
                             .addTemporalMarker(3, () -> intake.setIntakeRoller(1.0))
                             .addTemporalMarker(3, () -> intake.setIntakebelt(1.0))
                             .addTemporalMarker(3, () -> AutoReject=true)
 
-                            .waitSeconds(0.2) //was 0.4
+                            .waitSeconds(0.4) //was 0.4
                             .splineTo(new Vector2d(24, -60), Math.toRadians(-180))
                             .lineToConstantHeading(new Vector2d(-40, -60)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                            .lineToLinearHeading(new Pose2d(-60, -39.5, Math.toRadians(-195)))
+                            .lineToLinearHeading(new Pose2d(-60, -38, Math.toRadians(-195)))//////39.5
                             /*.lineToConstantHeading(new Vector2d(-62.5, -41),
                                     SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
