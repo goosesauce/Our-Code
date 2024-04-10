@@ -149,7 +149,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                     if (position==1){
                         TrajectorySequence State1SeqPos1 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(-44.75, -46, Math.toRadians(90))) //-44.75, -44.75
+                                .lineToLinearHeading(new Pose2d(-47, -44.75, Math.toRadians(90))) //-44.75, -44.75
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.State2;
@@ -248,7 +248,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                                 intake.setIntakebelt(1.0);
                                 AutoReject = true;
                             })
-                            .lineToLinearHeading(new Pose2d(-60, -40, Math.toRadians(165)))//was y 39
+                            .lineToLinearHeading(new Pose2d(-61, -40, Math.toRadians(165)))//was y 39
 
                             .build(); //-21, -60
                     if (!drive.isBusy()) {
@@ -346,7 +346,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                                 })*/
 
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(53, -33, Math.toRadians(180)))//52.5
+                                .lineToLinearHeading(new Pose2d(54, -34.5, Math.toRadians(180)))//52.5
                                 //.splineTo(new Vector2d(52.5, 33), Math.toRadians(0))
 
 
@@ -418,83 +418,119 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                     }
 ////////////////////////////////////////////   Move 6    //////////////////////////////////////////
                 case State7:
-                    double ndDrop = 0.1;
-                    if (position ==2){
-                        ndDrop=0.2;
-                    }
-                    TrajectorySequence State7Seq = drive.trajectorySequenceBuilder(poseEstimate)
+                    if (!drive.isBusy()) {
+                        currentState = State.State8;
+                    TrajectorySequence LeftPosBackboarddepart69 = drive.trajectorySequenceBuilder(poseEstimate)
                             .setReversed(false)
                             .addTemporalMarker(0, () -> {
                                 claw.upperClaw(true);
                                 upperClawOpen = true;
                             })
-                            .addTemporalMarker(ndDrop, () -> {
+                            .addTemporalMarker(0, () -> {
                                 claw.lowerClaw(true);
                                 lowerClawOpen = true;
                             })
-                            .forward(1)
-                            .addTemporalMarker(0.4, () -> claw.setRotateAngle("intake", 0.0))
-                            .addTemporalMarker(0.4, () -> lift.setTargetHeight(0, 0))
-                            .addTemporalMarker(0.4, () -> {
+                            .addTemporalMarker(0.8, () -> claw.setRotateAngle("intake", 0.0))
+                            .addTemporalMarker(1.2, () -> lift.setTargetHeight(0, 0))
+                            .addTemporalMarker(1.2, () -> {
                                 claw.setDeliverArm("intake");
                                 armIn = true;
                             })
+                            .addTemporalMarker(3, () -> intake.horiPower(-0.60))
+                            .addTemporalMarker(3, () -> intake.verticalPower(1.0))
+                            .addTemporalMarker(3, () -> intake.setIntakeRoller(1.0))
+                            .addTemporalMarker(3, () -> intake.setIntakebelt(1.0))
+                            .addTemporalMarker(3, () -> AutoReject=true)
 
-                            .waitSeconds(0.4)
-                            .lineToLinearHeading(new Pose2d(12, -60, Math.toRadians(180)))
+                            .waitSeconds(0.2) //was 0.4
+                            .splineTo(new Vector2d(24, -60), Math.toRadians(-180))
+                            .lineToConstantHeading(new Vector2d(-40, -60)) //.lineToConstantHeading(new Vector2d(-60, -13))
+                            .lineToLinearHeading(new Pose2d(-60, -39.5, Math.toRadians(-195)))
+                            /*.lineToConstantHeading(new Vector2d(-62.5, -41),
+                                    SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                    SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                            .splineTo(new Vector2d(-58, -40), Math.toRadians(180))
+                            .lineToConstantHeading(new Vector2d(-62.5, -41),
+                                    SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                    SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))*/
+                            .build(); //-21, -60
 
 
-
-
-
-
-                            .build();
-
-                    if (!drive.isBusy()) {
-                        currentState = State.State8;
-                        drive.followTrajectorySequenceAsync(State7Seq);
+                        drive.followTrajectorySequenceAsync(LeftPosBackboarddepart69);
                     }
                     break;
 ////////////////////////////////////////////   Move 7    //////////////////////////////////////////
                 case State8:
-                    TrajectorySequence State8Seq = drive.trajectorySequenceBuilder(poseEstimate)
-
-                            .setReversed(false)
-
-                            .lineToConstantHeading(new Vector2d(-35, -60))
-
-
-
-                            .build();
                     if (!drive.isBusy()) {
                         currentState = State.State9;
-                        drive.followTrajectorySequenceAsync(State8Seq);
+                        TrajectorySequence BackboardPixel2 = drive.trajectorySequenceBuilder(poseEstimate)
+                                .setReversed(true)
+                                .addTemporalMarker(2.5, () -> {
+                                    claw.upperClaw(false);
+                                    upperClawOpen = false;
+                                })
+                                .addTemporalMarker(2.5, () -> {
+                                    claw.lowerClaw(false);
+                                    lowerClawOpen = false;
+                                })
+                                //.waitSeconds(0.2) //was0.4
+                                .splineTo(new Vector2d(-40, -60), Math.toRadians(-0))
+                                .lineToConstantHeading(new Vector2d(12, -60))
+                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                                    lift.setTargetHeight(800, 0);
+                                })
+                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                                    claw.setDeliverArm("delivery");
+                                    armIn = false;
+                                })
+                                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> {
+                                    claw.setRotateAngle("horizontal", 0.0);
+                                })
+                                .splineTo(new Vector2d(53, -44), Math.toRadians(-0))
+                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                                    intake.horiPower(0.0);
+                                })
+                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                                    intake.verticalPower(0.0);
+                                })
+                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                                    intake.setIntakeRoller(0.0);
+                                })
+                                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                                    intake.setIntakebelt(0.0);
+                                })
+                                .build();
+                        drive.followTrajectorySequenceAsync(BackboardPixel2);
                     }
                     break;
 ////////////////////////////////////////////   Move 8    //////////////////////////////////////////
                 case State9:
-                    TrajectorySequence State9Seq = drive.trajectorySequenceBuilder(poseEstimate)
-
-                            .setReversed(false)
-                            .lineToLinearHeading(new Pose2d(-60, -42, Math.toRadians(155))) // was x-60 y40 angle 195
-                            .addTemporalMarker(0, () -> {
-                                intake.horiPower(-1.0);
-                                intake.verticalPower(1.0);
-                                intake.setIntakeRoller(1.0);
-                                intake.setIntakebelt(1.0);
-                                AutoReject = true;
-                            })
-
-
-                            .build();
                     if (!drive.isBusy()) {
-                        currentState = State.State10;
-
-                        drive.followTrajectorySequenceAsync(State9Seq);
+                        currentState = State.IDLE;;
+                        TrajectorySequence BackboardPixel469 = drive.trajectorySequenceBuilder(poseEstimate)
+                                .setReversed(false)
+                                .addTemporalMarker(0, () -> {
+                                    claw.upperClaw(true);
+                                    upperClawOpen = true;
+                                })
+                                .addTemporalMarker(0, () -> {
+                                    claw.lowerClaw(true);
+                                    lowerClawOpen = true;
+                                })
+                                .addTemporalMarker(0.4, () -> claw.setRotateAngle("intake", 0.0))
+                                .addTemporalMarker(0.7, () -> lift.setTargetHeight(0, 0))
+                                .addTemporalMarker(0.7, () -> {
+                                    claw.setDeliverArm("intake");
+                                    armIn = true;
+                                })
+                                .waitSeconds(0.2) //was 0.4
+                                .lineToLinearHeading(new Pose2d(44, -50, Math.toRadians(-180)))
+                                .build();
+                        drive.followTrajectorySequenceAsync(BackboardPixel469);
                     }
                     break;
                 case State10:
-                    TrajectorySequence State10Seq = drive.trajectorySequenceBuilder(poseEstimate)
+                    /*TrajectorySequence State10Seq = drive.trajectorySequenceBuilder(poseEstimate)
                             .setReversed(true)
                             .waitSeconds(0.1)
                             .addTemporalMarker(0.1, () -> {
@@ -512,11 +548,11 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                             currentState = State.State11;
                             drive.followTrajectorySequenceAsync(State10Seq);
                         }
-                    }
+                    }*/
                     break;
 
                 case State11:
-                    TrajectorySequence State11Seq = drive.trajectorySequenceBuilder(poseEstimate)
+                    /*TrajectorySequence State11Seq = drive.trajectorySequenceBuilder(poseEstimate)
 
                             .addTemporalMarker(0, () -> {
                                 intake.horiPower(0.0);
@@ -533,10 +569,10 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                     if (!drive.isBusy()) {
                         currentState = State.State12;
                         drive.followTrajectorySequenceAsync(State11Seq);
-                    }
+                    }*/
                     break;
                 case State12:
-                    if (position == 3){
+                    /*if (position == 3){
                         TrajectorySequence State12Seq1 = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .lineToLinearHeading(new Pose2d(50, -60, Math.toRadians(180)))//was 35.5
@@ -609,7 +645,7 @@ public class RedLeftBack2plus3 extends LinearOpMode {
                             drive.followTrajectorySequenceAsync(State13Seq);
                         }
                         break;
-                    }
+                    }*/
                 case IDLE:
 
                     break;

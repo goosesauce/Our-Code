@@ -13,7 +13,7 @@ public class claw {
     private Servo upper_grab, lower_grab, vertical_rotate, hori_rotate;
 
     final private double clawUpperOpen = 1.0;
-    final private double clawUpperClosed = 0.46;
+    final private double clawUpperClosed = 0.46;//0.46
     final private double clawLowerOpen = 0.89;
     final private double clawLowerClosed = 0.29;
     final private double verticalAtIntake = 0.0;//0.02
