@@ -238,7 +238,7 @@ public class RedRightBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.5))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineTo(new Vector2d(53, -35.5), Math.toRadians(0))
+                                .splineTo(new Vector2d(52.5, -35.5), Math.toRadians(0))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
