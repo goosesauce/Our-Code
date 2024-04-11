@@ -228,7 +228,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.7))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineToConstantHeading(new Vector2d(55, 42.5), Math.toRadians(0)).
+                                .splineToConstantHeading(new Vector2d(55, 42.2), Math.toRadians(0)).
                                 build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -330,7 +330,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .splineTo(new Vector2d(54, 44), Math.toRadians(0))
+                                .splineTo(new Vector2d(53, 44), Math.toRadians(0))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     intake.horiPower(0.0);
                                 })

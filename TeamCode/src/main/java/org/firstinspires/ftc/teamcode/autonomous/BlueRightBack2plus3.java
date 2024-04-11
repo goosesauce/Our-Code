@@ -22,7 +22,8 @@ import java.util.List;
 
 
 @Autonomous(name="BlueRightBack2plus3", group="FSMAuto", preselectTeleOp="teleOp")
-public class BlueRightBack2plus3 extends LinearOpMode {
+public class
+BlueRightBack2plus3 extends LinearOpMode {
     private DistanceSensor distance;
     private DistanceSensor distance2;
     boolean lowerClawOpen = true;
@@ -223,7 +224,7 @@ public class BlueRightBack2plus3 extends LinearOpMode {
                         TrajectorySequence State14Seq = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .waitSeconds(0.5)
-                                .addTemporalMarker(0, () -> intake.horiPower(0.8))
+                                .addTemporalMarker(0, () -> intake.horiPower(0.6))
                                 .addTemporalMarker(0, () -> claw.lowerClaw(true))
                                 .addTemporalMarker(0, () -> lowerClawOpen = true)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
@@ -347,7 +348,7 @@ public class BlueRightBack2plus3 extends LinearOpMode {
                                 })*/
 
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(53, 45.5, Math.toRadians(180)))//52.5
+                                .lineToLinearHeading(new Pose2d(53, 44.3, Math.toRadians(180)))//52.5
                                 //.splineTo(new Vector2d(52.5, 33), Math.toRadians(0))
 
 
@@ -363,7 +364,7 @@ public class BlueRightBack2plus3 extends LinearOpMode {
                         TrajectorySequence State6SeqPos2 = drive.trajectorySequenceBuilder(poseEstimate)
 
                                 .addTemporalMarker(0, () -> {
-                                    lift.setTargetHeight(600, 0);
+                                    lift.setTargetHeight(700, 0);
                                     claw.setDeliverArm("delivery");
                                     armIn = false;
                                     intake.horiPower(0.0);
@@ -376,7 +377,7 @@ public class BlueRightBack2plus3 extends LinearOpMode {
                                 })
 
                                 .setReversed(true)
-                                .lineToLinearHeading(new Pose2d(53.5, 40.5, Math.toRadians(180)))//52.5
+                                .lineToLinearHeading(new Pose2d(53.5, 40, Math.toRadians(180)))//52.5
                                 //.splineTo(new Vector2d(52.5, 33), Math.toRadians(0))
 
 
@@ -392,7 +393,7 @@ public class BlueRightBack2plus3 extends LinearOpMode {
                         TrajectorySequence State6SeqPos3 = drive.trajectorySequenceBuilder(poseEstimate)
 
                                 .addTemporalMarker(0, () -> {
-                                    lift.setTargetHeight(600, 0);
+                                    lift.setTargetHeight(725, 0);
                                     claw.setDeliverArm("delivery");
                                     armIn = false;
                                     intake.horiPower(0.0);
