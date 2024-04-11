@@ -160,7 +160,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                         TrajectorySequence LeftPos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .addTemporalMarker(0.5, () -> {
-                                    lift.setTargetHeight(600, 0);
+                                    lift.setTargetHeight(700, 0);
                                 })
                                 .addTemporalMarker(0.5, () -> {
                                     claw.setDeliverArm("delivery");
@@ -169,7 +169,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0.8, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .lineToLinearHeading(new Pose2d(34, 36, Math.toRadians(-180)))
+                                .lineToLinearHeading(new Pose2d(34, 36.5, Math.toRadians(-180))) //36
 
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
@@ -180,7 +180,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                         TrajectorySequence MiddlePos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .addTemporalMarker(0.5, () -> {
-                                    lift.setTargetHeight(500, 0);
+                                    lift.setTargetHeight(600, 0);
                                 })
                                 .addTemporalMarker(0.5, () -> {
                                     claw.setDeliverArm("delivery");
@@ -203,7 +203,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                         TrajectorySequence RightPos = drive.trajectorySequenceBuilder(poseEstimate)
                                 .setReversed(true)
                                 .addTemporalMarker(0.5, () -> {
-                                    lift.setTargetHeight(600, 0);
+                                    lift.setTargetHeight(650, 0);
                                 })
                                 .addTemporalMarker(0.5, () -> {
                                     claw.setDeliverArm("delivery");
@@ -213,7 +213,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
                                 .strafeTo(new Vector2d(16, 50))
-                                .lineToLinearHeading(new Pose2d(12.5, 36, Math.toRadians(-180)))
+                                .lineToLinearHeading(new Pose2d(13.25, 37.25, Math.toRadians(-180))) //12.5
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
@@ -228,7 +228,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .addTemporalMarker(0, () -> intake.horiPower(0.7))
                                 //.waitSeconds(0.3)
                                 .addTemporalMarker(0.5, () -> intake.horiPower(0.0))
-                                .splineToConstantHeading(new Vector2d(55, 42.2), Math.toRadians(0)).
+                                .splineToConstantHeading(new Vector2d(54, 43), Math.toRadians(0)). //42.5
                                 build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel1;
@@ -282,9 +282,9 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                             .addTemporalMarker(3, () -> intake.setIntakeRoller(1.0))
                             .addTemporalMarker(3, () -> intake.setIntakebelt(1.0))
                             .waitSeconds(0.2) //was 0.4
-                            .splineTo(new Vector2d(24, 60), Math.toRadians(180))
-                            .lineToConstantHeading(new Vector2d(-40, 60)) //.lineToConstantHeading(new Vector2d(-60, -13))
-                            .lineToLinearHeading(new Pose2d(-59.5, 40, Math.toRadians(195)))//.lineToLinearHeading(new Pose2d(-62.5, 40, Math.toRadians(195)))
+                            .splineTo(new Vector2d(24, 61), Math.toRadians(180))
+                            .lineToConstantHeading(new Vector2d(-40, 61)) //.lineToConstantHeading(new Vector2d(-60, -13))
+                            .lineToLinearHeading(new Pose2d(-59.5, 41, Math.toRadians(195)))//.lineToLinearHeading(new Pose2d(-62.5, 40, Math.toRadians(195)))
                             /*.lineToConstantHeading(new Vector2d(-62.5, -41),
                                     SampleMecanumDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -317,9 +317,9 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                     lowerClawOpen = false;
                                 })
                                 //.waitSeconds(0.2) //was0.4
-                                .lineToLinearHeading(new Pose2d(-40, 60, Math.toRadians(180)))
+                                .lineToLinearHeading(new Pose2d(-40, 61.5, Math.toRadians(180))) //61
                                 //.splineTo(new Vector2d(-40, 60), Math.toRadians(0))
-                                .lineToConstantHeading(new Vector2d(12, 60))
+                                .lineToConstantHeading(new Vector2d(12, 61.5)) //61
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     lift.setTargetHeight(800, 0);
                                 })
@@ -401,8 +401,8 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                     lowerClawOpen = false;
                                 })
                                 //.waitSeconds(0.2) //was0.4
-                                .splineTo(new Vector2d(-40, 60), Math.toRadians(0))
-                                .lineToConstantHeading(new Vector2d(12, 60))
+                                .splineTo(new Vector2d(-40, 61), Math.toRadians(0))
+                                .lineToConstantHeading(new Vector2d(12, 61))
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     lift.setTargetHeight(1200, 0);
                                 })
