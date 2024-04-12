@@ -212,7 +212,7 @@ public class BlueLeftInner2plus4 extends LinearOpMode {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
                                 .strafeTo(new Vector2d(16, 50))
-                                .lineToLinearHeading(new Pose2d(12.5, 36, Math.toRadians(-180)))
+                                .lineToLinearHeading(new Pose2d(13, 35.5, Math.toRadians(-180)))
                                 .build(); //-21, -60
                         if (!drive.isBusy()) {
                             currentState = State.BackboardPixel0;
