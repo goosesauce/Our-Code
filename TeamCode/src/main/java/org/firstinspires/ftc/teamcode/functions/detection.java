@@ -28,7 +28,7 @@ public class detection extends OpenCvPipeline {
         //Scalar upperBlue = new Scalar(130, 255, 255);
 
             Scalar lowerBlue = new Scalar(100, 200, 60);
-            Scalar upperBlue = new Scalar(120, 255, 100);
+            Scalar upperBlue = new Scalar(120, 255, 100);//////Scalar upperBlue = new Scalar(120, 255, 100);
 
             //Scalar lowerBlue = new Scalar(105, 220, 65);
             //Scalar upperBlue = new Scalar(120, 255, 90);

@@ -442,7 +442,9 @@ public class RedRightInner2plus4 extends LinearOpMode {
                                     armIn = true;
                                 })
                                 .waitSeconds(0.2) //was 0.4
-                                .lineToLinearHeading(new Pose2d(44, -35.5, Math.toRadians(180)))
+                                .lineToLinearHeading(new Pose2d(42, -12, Math.toRadians(180)),
+                                        SampleMecanumDrive.getVelocityConstraint(60, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                                        SampleMecanumDrive.getAccelerationConstraint(60))
                                 .build();
                         drive.followTrajectorySequenceAsync(BackboardPixel4);
                     }

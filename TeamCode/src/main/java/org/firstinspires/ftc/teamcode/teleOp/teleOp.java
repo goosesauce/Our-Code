@@ -307,8 +307,8 @@ public class teleOp extends LinearOpMode {
             }
 
             if (!lowerClawOpen && !upperClawOpen && armIn){
-                intake.horiPower(0.4);
-                intake.verticalPower(-0.4);
+                intake.horiPower(0.6);
+                intake.verticalPower(-0.6);
                 intake.setIntakeRoller(-1);
                 intake.setIntakebelt(1);
             }

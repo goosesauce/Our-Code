@@ -330,7 +330,7 @@ public class BlueLeftBack2plus4 extends LinearOpMode {
                                 .UNSTABLE_addTemporalMarkerOffset(0.6, () -> {
                                     claw.setRotateAngle("horizontal", 0.0);
                                 })
-                                .splineTo(new Vector2d(53, 44), Math.toRadians(0))
+                                .splineTo(new Vector2d(53, 43), Math.toRadians(0))/////was y 44
                                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                                     intake.horiPower(0.0);
                                 })
